@@ -22,8 +22,10 @@ dt <- read_delim("/Users/cmdb/Data/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.
 show(dt)
 #NUMBER OF GENES
 nrow(dt)
+# 56200
 #NUMBER OF TISSUES
 ncol(dt)
+# 56
 ```
 
 ------------------------------------------------------------------------
@@ -41,23 +43,32 @@ Do the results change if you set the threshold higher, say at 10 TPM?
 dt <- read_delim("/Users/cmdb/Data/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct", skip = 2, col_names = TRUE, delim = "\t")
 # Code here
 
+TPM = 10
 
 # show(gene_expression_threshold)
 
-Liver_Count <- filter(dt, Liver > 1)
+Liver_Count <- filter(dt, Liver > TPM)
 print(Liver_Count)
+# 13499 Genes above threshold for TPM = 1
+# 5132 Genes above threshold for TPM = 10
 
-Testis_Count <- filter(dt, Testis > 1)
+Testis_Count <- filter(dt, Testis > TPM)
 print(Testis_Count)
+# 25064 Genes above threshold for TPM = 1
+# 11471 Genes above threshold for TPM = 10
 
-Whole_Blood_Count <- filter(dt, Whole_Blood_Count > 1)
+Whole_Blood_Count <- filter(dt, Whole_Blood_Count > TPM)
 print(Whole_Blood_Count)
+# 56200 Genes above threshold for TPM = 1
+# 56200 Genes above threshold for TPM = 10
  
 
 
 # Interpretation here as a comment
 
 #Tesis have the most expressed genes and Whole Blood has the least expressed genes. This is likely because continuous gene expression acts as a failsafe to ensure constant DNA repair during the transcription process. This is, conversly, is likely not as needed in Whole Blood and therefore this explains the difference between gene expression between testis and whole blood.
+
+#For TPM above 10, all tissues except for Whole Blood had changes in the number of genes expressing above that threshold. The other two tissues had a reduction of genes expressing above the threshold.
 ```
 
 ------------------------------------------------------------------------
@@ -167,9 +178,11 @@ dt <- read_delim("/Users/cmdb/Data/GTEx/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.
 
 # Liver vs Heart answer
 cor.test(dt$Liver, dt$`Heart - Left Ventricle`, method = "kendall")
+# Tau value: 0.8053218 
 
 # Liver vs Brain answer
 cor.test(dt$Liver, dt$`Brain - Cortex`, method = "kendall")
+# Tau value: 0.7342544
 
 # interpretation
 # There is a stronger correlation between the expression levels of heart and liver than heart and brain because, as stated earlier, the liver and heart are implicated in energy production in the body whereas the brain and liver, jointly, are not. 
