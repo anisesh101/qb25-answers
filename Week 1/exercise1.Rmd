@@ -1,0 +1,21 @@
+
+```{r}
+
+header <- c( "chr", "start", "end", "count" )
+df_kc <- read_tsv("/Users/cmdb/qb25-answers/Week 1/hg19-kc-count.bed", col_names = header)
+
+
+ggplot(df_kc, aes(x = start, y = count)) +
+  geom_line() +
+  facet_wrap(.~ chr, scales = "free") +
+  labs(
+    x = "Chromosome",
+    y = "Gene Density",
+  ) 
+  
+ggsave("exercise1.png")
+
+
+```
+
+
