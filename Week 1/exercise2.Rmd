@@ -1,0 +1,23 @@
+
+
+```{r}
+library(tidyverse)
+
+header <- c( "chr", "start", "end", "count" )
+df19 <- read_tsv("/Users/cmdb/qb25-answers/Week 1/hg19-kc-count.bed", col_names = header)
+
+df16 <- read_tsv("/Users/cmdb/qb25-answers/Week 1/hg16-kc-count.bed", col_names = header)
+
+combined_df <- bind_rows(hg19 = df19, hg16 = df16, .id = "assembly")
+
+ggplot(combined_df, aes(x = start, y = count, color = assembly)) +
+  geom_line() +
+  facet_wrap(.~ chr, scales = "free") +
+  labs(
+    x = "Chromosome",
+    y = "Gene Density",
+  ) 
+
+ggsave("exercise2.png")
+
+```
