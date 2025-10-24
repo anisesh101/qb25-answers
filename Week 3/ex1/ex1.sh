@@ -22,7 +22,7 @@ samtools view -c A01_62.bam
 samtools view -c A01_63.bam
 
 # run FreeBayes to discover variants 
-freebayes -f ../sacCer3.fa -L bamListFIle.txt --genotype-qualities -p 2 > unfiltered.vcf
+freebayes -f ../sacCer3.fa -L bamListFIle.txt --genotype-qualities -p 1 > unfiltered.vcf
 
 # the resulting VCF file is unfiltered, meaning that it contains low-confidence calls and also has some quirky formatting, so the following steps use a software suite called vcflib to clean up the VCF
 
