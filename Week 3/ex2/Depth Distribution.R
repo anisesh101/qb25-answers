@@ -2,7 +2,14 @@ library(tidyverse)
 
 dp <- read.csv("~/qb25-answers/Week 3/ex2/DP.txt", header = TRUE)
 
-hist(dp$X1, breaks = 21, xlab = "Depth Frequency", main = "Depth Frequency Distribution")
+ggplot(dp, aes(x = X21)) +
+  geom_histogram(bins = 21) +
+  scale_x_continuous(limits = c(0, 20)) +
+  labs(
+    title = "Read Depth Across Variants",
+    x = "Read Depth",
+    y = "# of Variants"
+  ) 
 
 # Question 2.2: Interpret this figure in two or three sentences in your own words. What does it represent? Does it look as expected? Why or why not? Bonus: what is the name of this distribution?
 
