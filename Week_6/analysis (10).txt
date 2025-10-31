@@ -1,0 +1,24 @@
+
+
+
+
+
+Analysis Type:	PANTHER Overrepresentation Test (Released 20240807)
+Annotation Version and Release Date:	GO Ontology database DOI:  10.5281/zenodo.16423886 Released 2025-07-22
+Analyzed List:	upload_1 (Drosophila melanogaster)
+Reference List:	Drosophila melanogaster (all genes in database)
+Test Type:	FISHER
+Correction:	FDR
+GO biological process complete	Drosophila melanogaster - REFLIST (13821)	upload_1 (46)	upload_1 (expected)	upload_1 (over/under)	upload_1 (fold Enrichment)	upload_1 (raw P-value)	upload_1 (FDR)
+regulation of systemic arterial blood pressure by circulatory renin-angiotensin (GO:0001991)	3	2	.01	+	 > 100	3.24E-05	5.88E-02
+regulation of systemic arterial blood pressure by hormone (GO:0001990)	3	2	.01	+	 > 100	3.24E-05	4.70E-02
+angiotensin maturation (GO:0002003)	3	2	.01	+	 > 100	3.24E-05	3.92E-02
+regulation of angiotensin levels in blood (GO:0002002)	3	2	.01	+	 > 100	3.24E-05	3.36E-02
+regulation of blood pressure (GO:0008217)	3	2	.01	+	 > 100	3.24E-05	2.94E-02
+endocrine process (GO:0050886)	3	2	.01	+	 > 100	3.24E-05	2.61E-02
+regulation of systemic arterial blood pressure by renin-angiotensin (GO:0003081)	3	2	.01	+	 > 100	3.24E-05	2.35E-02
+regulation of systemic arterial blood pressure (GO:0003073)	3	2	.01	+	 > 100	3.24E-05	2.14E-02
+regulation of systemic arterial blood pressure mediated by a chemical signal (GO:0003044)	3	2	.01	+	 > 100	3.24E-05	1.96E-02
+mannose metabolic process (GO:0006013)	11	4	.04	+	 > 100	3.48E-08	2.53E-04
+carbohydrate metabolic process (GO:0005975)	232	9	.77	+	11.66	5.82E-08	2.11E-04
+regulation of cellular process (GO:0050794)	4011	1	13.35	-	.07	4.41E-06	1.07E-02
