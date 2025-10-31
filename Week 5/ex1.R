@@ -81,6 +81,17 @@ ggplot(selected_data, aes(x = DNM_Count, fill = Parent)) +
 
 t.test(combined_tibble$Mother_DNM_Count, combined_tibble$Father_DNM_Count, paired = TRUE)
 
+lm_diff <- lm(DNM_diff ~ 1, data = combined_tibble)
+summary(lm_diff)
+
+# The comparison shows that the paired t-test and the 
+# intercept linear model on the differences produce 
+# essentially identical results for the mean difference, 
+# t-value and p-value. This shows that the paired 
+# t-test is equivalent to testing whether 
+# the average maternal-paternal DNM difference per proband 
+# is significantly different from zero.
+
 #---------------------------------------------------------------
 
 
