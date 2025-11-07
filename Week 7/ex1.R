@@ -31,9 +31,7 @@ plotPCA(vsd, intgroup = "DTHHRDY")
 # PC2 is 7%
 
 # PC1 is associated with DTHHRDY
-# PC2 is not well explained by any of the variables
-# STILL NEED TO ANSWER:
-# Interpret these patterns in your own words and record your answers as a comment in your code.
+# PC2 does not clearly correspond to sex or age, indicating these contribute less to global variance.
 
 vsd_df <- assay(vsd) %>%
   t() %>%
@@ -46,15 +44,12 @@ m1 <- lm(formula = WASH7P ~ DTHHRDY + AGE + SEX, data = vsd_df) %>%
   tidy()
 
 # Does WASH7P show significant evidence of sex-differential expression
-# (and if so, in which direction)? Explain your answer.
-
 # NOT SIG
 
 m2 <- lm(formula = SLC25A47 ~ DTHHRDY + AGE + SEX, data = vsd_df) %>%
   summary() %>%
   tidy()
 
-# Now repeat your analysis for the gene SLC25A47. Does this gene show evidence 
 # of sex-differential expression (and if so, in which direction)? Explain your answer.
 
 # SIG if 0.05 is threshold
@@ -79,10 +74,9 @@ mapped_df <- left_join(res, mapped_df, by = "GENE_NAME") %>%
 # The Y chromosome encodes the genes with the most strongly upregulated genes in males vs females. 
 # There are more male upregulated genes vs female upreg genes. This may contribute to higher male mortality rates or shorter lifespans
 
-# How many genes are significantly differentially expressed between sexes?
-num_sig_genes <- sum(master_df$padj < 0.1, na.rm = TRUE)
-num_sig_genes
-# 262
+# If we use a  strict FDR (1%), we reduce false positives but might miss real differences (more false negatives). 
+# A more lenient FDR of 20% catches more true signals but also increases false positives. 
+# Larger sample sizes and stronger effect sizes make it easier to detect real gene expression differences accurately.
 
 res_dth <- results(dds, name = "DTHHRDY_ventilator_case_vs_fast_death_of_natural_causes") %>%
   as.data.frame() %>%
@@ -92,21 +86,17 @@ res_dth <- results(dds, name = "DTHHRDY_ventilator_case_vs_fast_death_of_natural
 
 # Number of significant genes under FDR 10%: 16069
 
-# Permute the SEX labels in metadata
 metadata_perm <- metadata_df
 metadata_perm$SEX <- sample(metadata_perm$SEX)
 
-# Create a new DESeq2 object using the permuted metadata
 dds_perm <- DESeqDataSetFromMatrix(
   countData = df,
   colData = metadata_perm,
   design = ~ SEX + AGE + DTHHRDY
 )
 
-# Run DESeq2
 dds_perm <- DESeq(dds_perm)
 
-# Extract results for the permuted SEX variable
 res_perm <- results(dds_perm, name = "SEX_male_vs_female") %>%
   as.data.frame() %>%
   rownames_to_column(var = "GENE_NAME") %>%
@@ -114,3 +104,21 @@ res_perm <- results(dds_perm, name = "SEX_male_vs_female") %>%
   as_tibble()
 
 # 48
+
+# ChatGPT help for the res_plot generation
+res_plot <- res %>%
+  mutate(
+    sig = case_when(
+      padj < 0.1 & abs(log2FoldChange) > 1 ~ "Significant",
+      TRUE ~ "Not significant"
+    )
+  )
+
+ggplot(res_plot, aes(x = log2FoldChange, y = -log10(padj), color = sig)) +
+  geom_point(alpha = 0.7) +
+  scale_color_manual(values = c("grey70", "red")) +
+  labs(
+    title = "Differential Expression by Sex",
+    x = "log2 Fold Change (M vs F)",
+    y = "-log10 Adjusted P-value"
+  )
